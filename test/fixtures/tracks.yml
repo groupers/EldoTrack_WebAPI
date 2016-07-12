@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  actor_id: 1
+  pageobject_id: 1
+  mouvement_id: 1
+
+two:
+  actor_id: 1
+  pageobject_id: 1
+  mouvement_id: 1

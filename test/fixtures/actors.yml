@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  type: 
+  token: MyString
+  dateOfBirth: 2016-07-11
+  hoursLoggedIn: 9.99
+  frequency: 9.99
+  experience: 9.99
+  percentile: 9.99
+
+two:
+  type: 
+  token: MyString
+  dateOfBirth: 2016-07-11
+  hoursLoggedIn: 9.99
+  frequency: 9.99
+  experience: 9.99
+  percentile: 9.99

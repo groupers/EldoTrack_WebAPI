@@ -1,0 +1,155 @@
+
+
+<head>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
+	<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+</head>
+
+<body>
+
+	<div id="demonstration_purpose_box" style="background-color: lightblue; width: 10em;position: relative;">
+		<p id="demonstration_purpose_box_text">hi</p>
+	</div>
+
+	<h3> Demonstration </h3>
+	<a id="btn-cloud1" class="waves-effect waves-light btn" href="#"><i class="material-icons left">cloud</i>Random button</a>
+	<a id="btn-logout" class="waves-effect waves-light btn"><i class="material-icons left">cloud</i>Log Out</a>
+
+<script>
+
+	var coordinates = [];
+	let temp_coordinates = [];
+	let jsonMainContainer = new Object();
+/** ------------------- MUST FILL IN ----------------------- **/
+	let jsonActor = new Object();
+		/* choice between unique, anon-unique, anon-group */
+		jsonActor.type = "unique";
+		/*For the moment enter age @todo create calculator */
+		jsonActor.dateofb = "22";
+		/* hard coded proof of concept */
+		jsonActor.hoursloggedin = "1234";
+		jsonActor.token = "Qefhiowenfiewfbklxcqok_11231";
+
+	let jsonPage = new Object();
+		jsonPage.pagehost = window.location.hostname;
+		jsonPage.pagepath = window.location.pathname;
+		/* if unsensitive params */
+		jsonPage.pagehref = window.location.href;
+/** -------------------------------------------------------- **/
+
+
+
+	// window size information.
+	var winBottom = function() {
+		return ($(window).scrollTop() + $(window).height());
+	};
+	var winRight = function(){
+		return $(window).width();
+	};
+
+
+		$(window).mousemove(function( event ) {
+		  // $(  "#demonstration_purpose_box").append( "<div>" + msg + "</div>" );
+		  $('#demonstration_purpose_box').css('top', 10+event.pageY + 'px');
+		  $('#demonstration_purpose_box').css('left', 10+event.pageX + 'px');
+		  $('#demonstration_purpose_box_text').text("("+(event.pageX/winRight()*100).toFixed( 2 )+"%, "+(event.pageY/winBottom()*100).toFixed( 2 )+"% )");
+		});
+
+
+		//Acts as a CSS selector
+		jQuery.fn.getPath = function () {
+		    if (this.length != 1) throw 'Requires one element.';
+
+		    var path, node = this;
+		    while (node.length) {
+		        var realNode = node[0], name = realNode.localName;
+		        if (!name) break;
+		        name = name.toLowerCase();
+
+		        var parent = node.parent();
+
+		        var siblings = parent.children(name);
+		        if (siblings.length > 1) { 
+		            name += ':eq(' + siblings.index(realNode) + ')';
+		        }
+
+		        path = name + (path ? '>' + path : '');
+		        node = parent;
+		    }
+
+		    return path;
+		};
+
+		//Get an accurate time
+		function clock() {
+		   var now = new Date(); var outStr = now.getHours()+':'+now.getMinutes()+':'+now.getSeconds()+':'+now.getMilliseconds();
+		   return outStr;
+		};
+
+		//Track coordinates
+		$(window).mousemove(function( event ) {
+		  let coordXY = new Object();
+		  coordXY.time = ""+clock();
+		  coordXY.x = ""+(event.pageX/winRight());
+		  coordXY.y = ""+(event.pageY/winBottom());
+
+		  coordinates.push(coordXY);
+		  temp_coordinates.push(coordXY);
+		});
+
+		/** Must create jsonActor object first **/
+		function jsonMake(event){
+			let clickObj = new Object();
+				clickObj.selector = $(event.target).getPath();
+				clickObj.href = $(event.target).attr('href');
+				clickObj.text = $(event.target).text();
+
+			let jsonContainer = new Object();
+				jsonContainer.actor = jsonActor;
+				jsonContainer.page = jsonPage;
+				jsonContainer.object = clickObj;
+				jsonContainer.movements = JSON.parse(JSON.stringify(temp_coordinates));
+				temp_coordinates = [];
+
+			/** Precaution, making everything well. **/
+				jsonMainContainer = JSON.parse(JSON.stringify(jsonContainer));
+
+			jsonPost(jsonMainContainer);
+
+		}
+
+		function jsonPost(jsonObject) {
+			//Send the user's model relevant information to the local api.. 
+			//and state on which page the user is currently on.
+			$.ajax({	
+				url: "https://localhost:3000/api",
+				type: "POST",
+				data: jsonObject ,
+				// crossDomain: true,
+				dataType: "json",
+				success: function (result) {
+			        },
+     			error: function (xhr, ajaxOptions, thrownError) {
+			        }
+			    });
+		};
+
+		var getAbsoluteUrl = (function() {
+	        var a;
+	        return function(url) {
+	            if(!a) a = document.createElement('a');
+	            a.href = url;
+	            return a.href;
+	        };
+	    })();    
+
+
+			$(document).on("click","a", jsonMake);
+		
+	</script>
+</body>

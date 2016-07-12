@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  host: MyString
+  path: MyString
+  href: MyString
+
+two:
+  host: MyString
+  path: MyString
+  href: MyString

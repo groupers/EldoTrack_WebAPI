@@ -1,0 +1,124 @@
+<h1> hola </h1>
+
+
+<!-- <script>
+ /** Detect if jQuery is available, if not inject it. **/
+	(function() {
+	    var counter = 0;
+
+	    doDetect();
+	    function doDetect() {
+	        if (typeof jQuery !== "undefined") {
+	            // ...jQuery has been loaded
+	            console.log("jquery exists");
+	        }
+	        else if (++counter < 5) { // 5 or whatever
+	            setTimeout(doDetect, 10);
+	        }
+	        else {
+	            // Time out (and either load it or don't)
+	            var e = document.createElement("script");e.src = "//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js";e.type="text/javascript";document.getElementsByTagName("head")[0].appendChild(e);
+	        }
+	    }
+	})();
+
+	/** Get window dimensions **/
+	var winBottom = function() 
+	{
+		return ($(window).scrollTop() + $(window).height());
+	};
+	var winRight = function()
+	{
+		return $(window).width();
+	};
+
+	/** Create canvas **/
+	var eC = 'canvas'+$('canvas').length;
+	var nC = $('<canvas/>')
+	    .attr({
+	    	id: eC
+	    })
+	    .css({ 
+	    position: "absolute",
+	    marginLeft: 0, marginTop: 0,
+	    top: 0, left: 0
+	}).appendTo('body');
+	var canvas = document.getElementById(eC);
+	var ctx = canvas.getContext("2d");
+	  ctx.canvas.width  = window.innerWidth;
+	  ctx.canvas.height = window.innerHeight;
+
+	// canvas path creation
+	// var path1 = {
+	//     lineWidth: 1,
+	//     stroke: "blue",
+	//     points: []
+	// };
+
+	var paths = [];
+	var new_path = {};
+
+	let prevTrack = 0;
+	function genNewPath(track){
+		if (prevTrack != track ){
+		 new_path = 			
+		  {
+		    lineWidth: 1,
+		    stroke: getRandomColor(),
+		    points: []
+	      };
+	      paths.push(new_path);
+		}
+		prevTrack = track;
+
+	};
+	<% @testjsons.each do |tj| %>
+		genNewPath(<%= tj.track %>);
+		newPoint(<%= tj.x %>*winRight() , <%= tj.y %>*winBottom(), new_path);
+	<% end %>
+
+	draw();
+
+
+	function newPoint(x, y, path) {
+	    path.points.push({
+	        x: x,
+	        y: y
+	    });
+	}
+
+	function draw() {
+
+	    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+	    for (p = 0; p < paths.length; p++) {
+
+	        var path = paths[p];
+
+	        ctx.beginPath();
+
+	        ctx.moveTo(path.points[0].x, path.points[0].y);
+
+	        for (pt = 1; pt < path.points.length; pt++) {
+	            var point = path.points[pt];
+	            ctx.lineTo(point.x, point.y);
+	        }
+
+	        //
+	        ctx.strokeStyle = path.stroke;
+	        ctx.lineWidth = path.lineWidth;
+	        ctx.stroke();
+
+	    }
+
+	};
+
+	function getRandomColor() {
+	    var letters = '0123456789ABCDEF'.split('');
+	    var color = '#';
+	    for (var i = 0; i < 6; i++ ) {
+	        color += letters[Math.floor(Math.random() * 16)];
+	    }
+	    return color;
+	};
+</script> -->

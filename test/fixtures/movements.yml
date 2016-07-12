@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  track_id: 1
+  x: 9.99
+  'y': 9.99
+  time: MyString
+
+two:
+  track_id: 1
+  x: 9.99
+  'y': 9.99
+  time: MyString
