@@ -1,6 +1,6 @@
 class Track < ActiveRecord::Base
-  has_one :actor
-  has_one :pageobject
+  belongs_to :actor
+  belongs_to :pageobject
   has_many :movements
 
 end

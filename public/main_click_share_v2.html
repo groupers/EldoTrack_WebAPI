@@ -1,0 +1,343 @@
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- 	<script src="js/webgazer.js"></script>-->
+<script>
+		/* mousetrap v1.6.0 craig.is/killing/mice */
+(function(r,t,g){function u(a,b,h){a.addEventListener?a.addEventListener(b,h,!1):a.attachEvent("on"+b,h)}function y(a){if("keypress"==a.type){var b=String.fromCharCode(a.which);a.shiftKey||(b=b.toLowerCase());return b}return k[a.which]?k[a.which]:p[a.which]?p[a.which]:String.fromCharCode(a.which).toLowerCase()}function D(a){var b=[];a.shiftKey&&b.push("shift");a.altKey&&b.push("alt");a.ctrlKey&&b.push("ctrl");a.metaKey&&b.push("meta");return b}function v(a){return"shift"==a||"ctrl"==a||"alt"==a||
+"meta"==a}function z(a,b){var h,c,e,g=[];h=a;"+"===h?h=["+"]:(h=h.replace(/\+{2}/g,"+plus"),h=h.split("+"));for(e=0;e<h.length;++e)c=h[e],A[c]&&(c=A[c]),b&&"keypress"!=b&&B[c]&&(c=B[c],g.push("shift")),v(c)&&g.push(c);h=c;e=b;if(!e){if(!n){n={};for(var l in k)95<l&&112>l||k.hasOwnProperty(l)&&(n[k[l]]=l)}e=n[h]?"keydown":"keypress"}"keypress"==e&&g.length&&(e="keydown");return{key:c,modifiers:g,action:e}}function C(a,b){return null===a||a===t?!1:a===b?!0:C(a.parentNode,b)}function c(a){function b(a){a=
+a||{};var b=!1,m;for(m in n)a[m]?b=!0:n[m]=0;b||(w=!1)}function h(a,b,m,f,c,h){var g,e,k=[],l=m.type;if(!d._callbacks[a])return[];"keyup"==l&&v(a)&&(b=[a]);for(g=0;g<d._callbacks[a].length;++g)if(e=d._callbacks[a][g],(f||!e.seq||n[e.seq]==e.level)&&l==e.action){var q;(q="keypress"==l&&!m.metaKey&&!m.ctrlKey)||(q=e.modifiers,q=b.sort().join(",")===q.sort().join(","));q&&(q=f&&e.seq==f&&e.level==h,(!f&&e.combo==c||q)&&d._callbacks[a].splice(g,1),k.push(e))}return k}function g(a,b,m,f){d.stopCallback(b,
+b.target||b.srcElement,m,f)||!1!==a(b,m)||(b.preventDefault?b.preventDefault():b.returnValue=!1,b.stopPropagation?b.stopPropagation():b.cancelBubble=!0)}function e(a){"number"!==typeof a.which&&(a.which=a.keyCode);var b=y(a);b&&("keyup"==a.type&&x===b?x=!1:d.handleKey(b,D(a),a))}function k(a,c,m,f){function e(c){return function(){w=c;++n[a];clearTimeout(r);r=setTimeout(b,1E3)}}function h(c){g(m,c,a);"keyup"!==f&&(x=y(c));setTimeout(b,10)}for(var d=n[a]=0;d<c.length;++d){var p=d+1===c.length?h:e(f||
+z(c[d+1]).action);l(c[d],p,f,a,d)}}function l(a,b,c,f,e){d._directMap[a+":"+c]=b;a=a.replace(/\s+/g," ");var g=a.split(" ");1<g.length?k(a,g,b,c):(c=z(a,c),d._callbacks[c.key]=d._callbacks[c.key]||[],h(c.key,c.modifiers,{type:c.action},f,a,e),d._callbacks[c.key][f?"unshift":"push"]({callback:b,modifiers:c.modifiers,action:c.action,seq:f,level:e,combo:a}))}var d=this;a=a||t;if(!(d instanceof c))return new c(a);d.target=a;d._callbacks={};d._directMap={};var n={},r,x=!1,p=!1,w=!1;d._handleKey=function(a,
+c,e){var f=h(a,c,e),d;c={};var k=0,l=!1;for(d=0;d<f.length;++d)f[d].seq&&(k=Math.max(k,f[d].level));for(d=0;d<f.length;++d)f[d].seq?f[d].level==k&&(l=!0,c[f[d].seq]=1,g(f[d].callback,e,f[d].combo,f[d].seq)):l||g(f[d].callback,e,f[d].combo);f="keypress"==e.type&&p;e.type!=w||v(a)||f||b(c);p=l&&"keydown"==e.type};d._bindMultiple=function(a,b,c){for(var d=0;d<a.length;++d)l(a[d],b,c)};u(a,"keypress",e);u(a,"keydown",e);u(a,"keyup",e)}if(r){var k={8:"backspace",9:"tab",13:"enter",16:"shift",17:"ctrl",
+18:"alt",20:"capslock",27:"esc",32:"space",33:"pageup",34:"pagedown",35:"end",36:"home",37:"left",38:"up",39:"right",40:"down",45:"ins",46:"del",91:"meta",93:"meta",224:"meta"},p={106:"*",107:"+",109:"-",110:".",111:"/",186:";",187:"=",188:",",189:"-",190:".",191:"/",192:"`",219:"[",220:"\\",221:"]",222:"'"},B={"~":"`","!":"1","@":"2","#":"3",$:"4","%":"5","^":"6","&":"7","*":"8","(":"9",")":"0",_:"-","+":"=",":":";",'"':"'","<":",",">":".","?":"/","|":"\\"},A={option:"alt",command:"meta","return":"enter",
+escape:"esc",plus:"+",mod:/Mac|iPod|iPhone|iPad/.test(navigator.platform)?"meta":"ctrl"},n;for(g=1;20>g;++g)k[111+g]="f"+g;for(g=0;9>=g;++g)k[g+96]=g;c.prototype.bind=function(a,b,c){a=a instanceof Array?a:[a];this._bindMultiple.call(this,a,b,c);return this};c.prototype.unbind=function(a,b){return this.bind.call(this,a,function(){},b)};c.prototype.trigger=function(a,b){if(this._directMap[a+":"+b])this._directMap[a+":"+b]({},a);return this};c.prototype.reset=function(){this._callbacks={};this._directMap=
+{};return this};c.prototype.stopCallback=function(a,b){return-1<(" "+b.className+" ").indexOf(" mousetrap ")||C(b,this.target)?!1:"INPUT"==b.tagName||"SELECT"==b.tagName||"TEXTAREA"==b.tagName||b.isContentEditable};c.prototype.handleKey=function(){return this._handleKey.apply(this,arguments)};c.addKeycodes=function(a){for(var b in a)a.hasOwnProperty(b)&&(k[b]=a[b]);n=null};c.init=function(){var a=c(t),b;for(b in a)"_"!==b.charAt(0)&&(c[b]=function(b){return function(){return a[b].apply(a,arguments)}}(b))};
+c.init();r.Mousetrap=c;"undefined"!==typeof module&&module.exports&&(module.exports=c);"function"===typeof define&&define.amd&&define(function(){return c})}})("undefined"!==typeof window?window:null,"undefined"!==typeof window?document:null);
+</script>
+
+</head>
+
+<body>
+
+
+	<h3> Demonstration page 1 </h3>
+	<a id="btn-cloud1" class="waves-effect waves-light btn"><i class="material-icons left">cloud</i>Random button</a>
+	<a id="btn-logout" class="waves-effect waves-light btn"><i class="material-icons left">cloud</i>Log Out</a>
+	
+<script>
+
+	var coordinates = [];
+	let temp_coordinates = [];
+	var jsonMainContainer = new Object();
+/** ------------------- MUST FILL IN ----------------------- **/
+	let jsonActor = new Object();
+		/* choice between unique, anon-unique, anon-group */
+		jsonActor.kind = "unique";
+		/*For the moment enter age @todo create calculator */
+		jsonActor.dofb = "19931030";
+		/* hard coded proof of concept */
+		// jsonActor.hrslggdn = "1234";
+		jsonActor.token = "second_token";
+
+	let jsonPage = new Object();
+		jsonPage.pagehost = window.location.hostname;
+		jsonPage.pagepath = window.location.pathname;
+		/* if unsensitive params */
+		jsonPage.pagehref = window.location.href;
+/** -------------------------------------------------------- **/
+
+
+
+	// window size information.
+	var winBottom = function() {
+		return ($(window).scrollTop() + $(window).height());
+	};
+	var winRight = function(){
+		return $(window).width();
+	};
+
+
+		// $(window).mousemove(function( event ) {
+		//   // $(  "#demonstration_purpose_box").append( "<div>" + msg + "</div>" );
+		//   $('#demonstration_purpose_box').css('top', 10+event.pageY + 'px');
+		//   $('#demonstration_purpose_box').css('left', 10+event.pageX + 'px');
+		//   $('#demonstration_purpose_box_text').text("("+(event.pageX).toFixed( 2 )+", "+(event.pageY).toFixed( 2 )+")");
+		// });
+
+
+		//Acts as a CSS selector
+		jQuery.fn.getPath = function () {
+		    if (this.length != 1) throw 'Requires one element.';
+
+		    var path, node = this;
+		    while (node.length) {
+		        var realNode = node[0], name = realNode.localName;
+		        if (!name) break;
+		        name = name.toLowerCase();
+
+		        var parent = node.parent();
+
+		        var siblings = parent.children(name);
+		        if (siblings.length > 1) { 
+		            name += ':eq(' + siblings.index(realNode) + ')';
+		        }
+
+		        path = name + (path ? '>' + path : '');
+		        node = parent;
+		    }
+
+		    return path;
+		};
+
+		//Get an accurate time
+		function clock() {
+		   var now = new Date(); var outStr = now.getHours()+':'+now.getMinutes()+':'+now.getSeconds()+':'+now.getMilliseconds();
+		   return outStr;
+		};
+		//Get time to the Hour
+		// fix time format in case of roll back
+		function getclockHours() {
+			var now = new Date(); var outStr = now.getHours()+(now.getMinutes()/60)+(now.getSeconds()/3600)+(now.getMilliseconds()/3600000);
+			return outStr;
+
+		}
+		//Track coordinates
+		$(window).mousemove(function( event ) {
+		  let coordXY = new Object();
+		  coordXY.time = getclockHours();
+		  coordXY.x = (event.pageX);
+		  coordXY.y = (event.pageY);
+
+		  coordinates.push(coordXY);
+		  temp_coordinates.push(coordXY);
+		});
+
+		/** Must create jsonActor object first **/
+		function jsonMake(event){
+			let clickObj = new Object();
+			$jqCO = $(event.target);
+				clickObj.objectselector = ""+$(event.target).getPath();
+				clickObj.objecthref = ""+$(event.target).attr('href');
+				clickObj.objecttext = ""+$(event.target).text();
+				clickObj.objectwidth = $(event.target).width();
+				clickObj.objectheight = $(event.target).height();
+				clickObj.tracktime = getclockHours();
+				clickObj.track_x = $jqCO.offset().left+ $jqCO.width()/2;
+				clickObj.track_y =$jqCO.offset().top+ $jqCO.height()/2;
+			let jsonContainer = new Object();
+			/** User api_access_key  **/
+				jsonContainer.token = "access_e";
+			/** 					 **/
+			/** To avoid tinkering should be set in server side **/
+				jsonContainer.actor = jsonActor;
+				jsonContainer.page = jsonPage;
+			/** 								**/
+				jsonContainer.object = clickObj;
+				jsonContainer.movements = JSON.parse(JSON.stringify(temp_coordinates));
+				temp_coordinates = [];
+
+			/** Precaution, making everything well. **/
+				jsonMainContainer = JSON.parse(JSON.stringify(jsonContainer));
+
+			jsonPost(jsonMainContainer);
+
+		}
+
+		function jsonPost(jsonObject) {
+			//Send the user's model relevant information to the local api.. 
+			//and state on which page the user is currently on.
+			$.ajax({	
+				url: "https://localhost:3000/api",
+				type: "POST",
+				data: jsonObject ,
+				// crossDomain: true,
+				dataType: "json",
+				success: function (result) {
+			        },
+     			error: function (xhr, ajaxOptions, thrownError) {
+			        }
+			    });
+		};
+
+		var getAbsoluteUrl = (function() {
+	        var a;
+	        return function(url) {
+	            if(!a) a = document.createElement('a');
+	            a.href = url;
+	            return a.href;
+	        };
+	    })();    
+
+
+			// $(document).on("click","a", jsonMake);
+			$(document).on("click",".waves-effect", jsonMake);
+		
+</script>
+
+<table id="options_table" style="opacity:0">
+        <thead>
+          <tr>
+              <th data-field="id">Name</th>
+              <th data-field="name">Item Name</th>
+              <th data-field="price">Item Price</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td>Alvin</td>
+            <td>Eclair</td>
+            <td>$0.87</td>
+          </tr>
+          <tr>
+            <td>Alan</td>
+            <td>Jellybean</td>
+            <td>$3.76</td>
+          </tr>
+          <tr>
+            <td>Jonathan</td>
+            <td>Lollipop</td>
+            <td>$7.00</td>
+          </tr>
+        </tbody>
+      </table>
+    <style>
+		#options_table {
+			opacity:0;
+			position:absolute;
+	        user-select: none;
+	        -moz-user-select: none;
+	        -khtml-user-select: none;
+	        -webkit-user-select: none;
+	        -o-user-select: none;
+		}
+    </style>
+<script>
+	let coordx = null;
+	let coordy = null;
+	$(window).mousemove(function( event ) {
+		coordx = event.pageX;
+		coordy = event.pageY;
+	});
+	Mousetrap.bind('ctrl+h', function(e, combo) {
+    console.log(combo); // logs 'ctrl+shift+up'
+    $('#options_table').css('opacity','1');
+    $('#options_table').css('top', 10+coordy + 'px');
+	$('#options_table').css('left', 10+coordx + 'px');
+});
+</script>
+<script>
+		/** injected ---------------**/
+
+// var apiURL = "https://localhost:3000/access/a102938012938/content/movements/1.json";
+
+
+// 	/** Create canvas **/
+// 	var eC = 'canvas'+$('canvas').length;
+// 	var nC = $('<canvas/>')
+// 	    .attr({
+// 	    	id: eC
+// 	    })
+// 	    .css({ 
+// 	    position: "absolute",
+// 	    marginLeft: 0, marginTop: 0,
+// 	    top: 0, left: 0, zIndex: 60 
+// 	}).css('pointer-events', 'none').appendTo('body');
+// 	var canvas = document.getElementById(eC);
+// 	var ctx = canvas.getContext("2d");
+// 	  ctx.canvas.width  = window.innerWidth;
+// 	  ctx.canvas.height = window.innerHeight;
+
+
+// 	var paths = [];
+// 	var new_path = {};
+
+// 	let prevTrack = 0;
+// 	function genNewPath(track){
+// 		if (prevTrack != track ){
+// 		 new_path = 			
+// 		  {
+// 		    lineWidth: 4,
+// 		    stroke: getRandomColor(),
+// 		    points: []
+// 	      };
+// 	      paths.push(new_path);
+// 		}
+// 		prevTrack = track;
+
+// 	};
+// 		$.getJSON(apiURL, function(data) {
+// 	        $.each(data, function(index) {
+// 	        	genNewPath(data[index].track_id);
+// 	            newPoint(data[index].x, data[index].y, new_path);
+// 	        });
+// 		draw();
+// 	    });
+
+
+// 	function newPoint(x, y, path) {
+// 	    path.points.push({
+// 	        x: x,
+// 	        y: y
+// 	    });
+// 	}
+
+// 	function draw() {
+// 		$(function(){
+// 		    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+// 		    for (p = 0; p < paths.length; p++) {
+
+// 		        var path = paths[p];
+// 		        let firstx = path.points[0].x;
+// 		        let firsty = path.points[0].y;
+// 		        let path_size = path.points.length-1;
+// 		        let prevx = firstx;
+// 		        let prevy = firsty;
+// 		        for (pt = 1; pt < path.points.length; pt++) {
+// 		        ctx.beginPath();
+
+// 		        ctx.moveTo(prevx, prevy);
+// 		        var point = path.points[pt];
+// 		        ctx.lineTo(point.x, point.y);
+
+// 		        ctx.strokeStyle = path.stroke;
+// 		        if(pt > path.points.length-2){
+// 		        	ctx.lineWidth = (path.lineWidth*(10*pt))/path_size;
+// 		    	} else {
+// 		    		ctx.lineWidth = path.lineWidth;
+// 		    	}
+// 		        ctx.stroke();
+// 		        prevx = point.x;
+// 		        prevy = point.y;
+// 		          if(pt == path.points.length -1 ){
+// 		          	ctx.fillStyle= "#FF0000";;
+// 		          	ctx.lineWidth = 0.5;
+// 			        ctx.beginPath();
+// 			        ctx.moveTo(firstx, firsty);
+// 			        ctx.lineTo(point.x, point.y);
+// 			        ctx.stroke();
+// 			    }
+		      
+// 		      }
+
+// 		    }
+// 		});
+
+// 	};
+
+// 		function getRandomColor() {
+// 		    var letters = '0123456789ABCDEF'.split('');
+// 		    var color = '#';
+// 		    for (var i = 0; i < 6; i++ ) {
+// 		        color += letters[Math.floor(Math.random() * 16)];
+// 		    }
+// 		    return color;
+// 		};
+	</script>
+</body>

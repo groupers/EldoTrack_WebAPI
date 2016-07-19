@@ -34,4 +34,94 @@ class ApplicationController < ActionController::Base
     obj.assign_attributes(attributes)
     obj
   end
+
+
+  def get_page_specs_of(page, kind)
+    if page && page.id
+    pageobjects = Pageobject.where(page_id: page.id)
+    end
+    if pageobjects
+      pageobjects_x_tracks = pageobjects.select('*').joins(:tracks)
+
+      total_time_on_page = 0
+
+      total_numb_of_objects = 0
+
+
+      total_numb_of_track_per_object = Hash.new
+      total_time_per_objects = Hash.new
+      avg_track_time_per_object = Hash.new
+
+      avg_distance_required_per_object = Hash.new
+      avg_distance_taken_per_object = Hash.new
+
+      fitts_index_of_difficulty_per_object = Hash.new
+      fitts_index_of_difficulty_sum_per_object = Hash.new
+
+      #Should add a table and column on track to avoid recalculating known avg
+
+        pageobjects_x_tracks.each do |l|
+          if l[:id]
+            allmovements = Movement.where(track_id: l[:id]).all
+            #Fix time formatting
+            track = Track.find_by(id: l[:id])
+            current_track_time =(track.track_time - allmovements.first.time.to_d)
+            total_time_on_page += current_track_time
+            total_numb_of_objects += 1
+            current_track_distance = Math.sqrt(((track.track_x - allmovements[0][:x])**2)+((track.track_y-allmovements[0][:y])**2))
+
+            #Since the track distance is approximated to the center of the button
+            #Fitts law is applicable. the height will play as W (since its shorter.)
+            if !fitts_index_of_difficulty_sum_per_object[l[:pageobject_id]]
+             fitts_index_of_difficulty_sum_per_object[l[:pageobject_id]] ||= (Math.log2(2*current_track_distance.to_d/l[:height])).to_d
+            else
+             fitts_index_of_difficulty_sum_per_object[l[:pageobject_id]] += (Math.log2(2*current_track_distance.to_d/l[:height])).to_d
+            end
+
+            if !total_time_per_objects[l[:pageobject_id]]
+              total_time_per_objects[l[:pageobject_id]] ||= current_track_time
+            else
+              total_time_per_objects[l[:pageobject_id]] += current_track_time
+            end
+
+            if !total_numb_of_track_per_object[l[:pageobject_id]]
+              total_numb_of_track_per_object[l[:pageobject_id]] ||= 1
+            else
+              total_numb_of_track_per_object[l[:pageobject_id]] += 1
+            end
+
+            # avg_distance_required_per_track
+            if !avg_distance_required_per_object[l[:pageobject_id]]
+              avg_distance_required_per_object[l[:pageobject_id]] ||= current_track_distance
+            else
+              avg_distance_required_per_object[l[:pageobject_id]] += current_track_distance
+            end
+          end
+        end
+
+          fitts_index_of_difficulty_sum_per_object.each { |k,v|
+            fitts_index_of_difficulty_per_object[k] = ((v).to_d)/total_numb_of_track_per_object[k]
+          }
+          avg_distance_required_per_object.each {|k,v|
+            avg_distance_required_per_object[k] = (v)/(total_numb_of_track_per_object[k])
+          }
+          #Avg time per object
+          total_time_per_objects.each { |k, v|
+            avg_track_time_per_object[k]= v/total_numb_of_track_per_object[k]
+
+          }
+        return case
+          #
+          when kind == "avg_obj_required_distance"; avg_distance_required_per_object
+          when kind == "tot_obj_time"; total_time_per_objects
+          when kind == "tot_obj_numb"; total_numb_of_objects
+          when kind == "total_numb_of_track_per_object"; total_numb_of_track_per_object
+          when kind == "tot_page_time"; total_time_on_page
+          when kind == "avg_obj_time"; avg_track_time_per_object
+          when kind == "fitts_index_of_difficulty_per_object"; fitts_index_of_difficulty_per_object
+          else ; avg_distance_required_per_object
+        end
+    end
+  end
+
 end

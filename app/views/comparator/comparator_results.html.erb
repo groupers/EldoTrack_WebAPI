@@ -1,0 +1,172 @@
+<html>
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
+
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
+ 
+ <div class="row">
+	<%= form_for :comparator, url: '/comparator', html: {class: "col s12" } do |f| %>
+	<div class="input-field row col s6">
+		  <label for="icon_prefix">Web address (1) :</label>
+				<%= f.text_field :path1 %>
+	</div>
+	<div class="input-field row col s6">
+		  	  <label for="icon_prefix">Web address (2) :</label>
+			<%= f.text_field :path2 %>
+	</div>
+	 <%= f.submit "Submit", class: "btn waves-effect waves-light", id: "button-submit" %>
+	 <% end %>
+ </div>
+<div>
+	<div class="row">
+		 	<div class="col s6">
+		 		<h3>Comparing both pages :</h3>
+		 	</div>
+		 	<div class="col s6">
+		 	 <u>Webpage 1:</u>
+			 <p style="color: blue"> <%= @page1_link %></p>
+			 <u>Webpage 2:</u>
+			 <p style="color: orange"> <%= @page2_link %></p>
+			</div>
+	</div>
+	<table class="bordered">
+		<thead>
+		<tr>
+			<td>Object Text/id/Match's </td>
+			<td></td>
+			<% @page_objects_common_text.each {  |v| %> 
+			<th data-field="poct<%= @trace_comparer+= 1%>"><%= v %></th>
+			<% } if @page_objects_common_text %>
+		</tr>
+		</thead>
+		<tbody>
+		<tr>
+			<td rowspan="2">Averaged time taken to reach object</td>
+			<td class="td-spacing1" style="color: blue">Page 1</td>
+			<% @trace_comparer = 0 
+			@page1_object_common_text_time.each {  |v| %> 
+			<td id="p1octt<%= @trace_comparer+= 1%>" value="<%= v %>"><%= v %></td>
+			<% } if @page1_object_common_text_time %>
+		</tr>
+		<tr>
+			<td class="td-spacing1" style="color: orange">Page 2</td>
+			<% @trace_comparer = 0
+			 @page2_object_common_text_time.each {  |v| %> 
+			<td id="p2octt<%= @trace_comparer+= 1%>" value="<%= v %>" ><%= v %></td>
+			<% } if @page2_object_common_text_time %>
+		</tr>
+		<tr>
+			<td rowspan="2">Averaged required distance to travel to object</td>
+			<td class="td-spacing1" style="color: blue">Page1</td>
+			<% @trace_comparer = 0
+			 @page1_object_common_text_required_distance.each {  |v| %> 
+			<td id="p1octrd<%= @trace_comparer+= 1%>" value="<%= v %>" ><%= v %></td>
+			<% } if @page1_object_common_text_required_distance %>
+		</tr>
+		<tr>
+			<td class="td-spacing1" style="color: orange">Page2 </td>
+			<% @trace_comparer = 0
+			 @page2_object_common_text_required_distance.each {  |v| %> 
+			<td id="p2octrd<%= @trace_comparer+= 1%>" value="<%= v %>" ><%= v %></td>
+			<% } if @page2_object_common_text_required_distance %>
+		</tr>
+		<tr>
+			<td rowspan="2">Fitts generalised index of Difficulty &Sigma;log<sub>2</sub>(2A/W)/N</td>
+			<td class="td-spacing1" style="color: blue">Page1</td>
+			<% @trace_comparer = 0
+			 @page1_fitts_index_of_difficulty.each {  |v| %> 
+			<td id="p1fiod<%= @trace_comparer+= 1%>" value="<%= v %>" ><%= v %></td>
+			<% } if @page1_fitts_index_of_difficulty  %>
+		</tr>
+		<tr>
+			<td class="td-spacing1" style="color: orange">Page2 </td>
+			<% @trace_comparer = 0
+			 @page2_fitts_index_of_difficulty.each {  |v| %> 
+			<td id="p2fiod<%= @trace_comparer+= 1%>" value="<%= v %>" ><%= v %></td>
+			<% } if @page2_fitts_index_of_difficulty  %>
+
+		</tr>
+		<tr class="#bbdefb blue lighten-4">
+			<td data-field="outcome">Outcome </td>
+			<td></td>
+			<% @trace_comparer = 0
+			 @page2_object_common_text_time.each {  |v| %>
+			<td id="win_object<%= @trace_comparer+= 1%>"></td>
+			<% } %>
+
+		</tr>
+		</tbody>
+
+	</table>
+	<p><%= @objects_common_text %></p>
+</div>
+</br>
+<script>
+for (i = 1 ; i <= <%= @trace_comparer %>; i++){
+	let p1 = 0 , p2 = 0 ;
+	if ($("#p1octt"+i).attr('value') < $("#p2octt"+i).attr('value') ){
+		$('#p1octt'+i).css('color', 'green');
+		p1++;
+	} else {
+		$('#p2octt'+i).css('color', 'green');
+		p2++;
+
+	}
+	if($("#p1octrd"+i).attr('value') < $("#p2octrd"+i).attr('value') ){
+		$('#p1octrd'+i).css('color', 'green');
+		p1++;
+	} else {
+		$('#p2octrd'+i).css('color', 'green');
+		p2++;
+	}
+	if($("#p1fiod"+i).attr('value') < $("#p2fiod"+i).attr('value') ){
+		$('#p1fiod'+i).css('color', 'green');
+		p1++;
+	} else {
+		$('#p2fiod'+i).css('color', 'green');
+		p2++;
+	}
+
+
+	if(p1 > p2){
+	$('#win_object'+i).text("Page one");	
+	$('#win_object'+i).css('color','blue');
+
+	}else if(p2 > p1 ){
+		console.log(""+p1+ " "+p2);
+	$('#win_object'+i).text("Page two");
+	$('#win_object'+i).css('color','orange');
+	}else {
+		$('#win_object'+i).text("There is an unweighted tie");
+		$('#win_object'+i).css('color','Green');
+	}
+}
+</script>
+
+<style>
+.td-spacing1{
+	padding: 0 0;
+}
+table {
+	/*border-collapse: separate;*/
+    border-spacing: 2px;
+}
+
+body,html {
+	width:100%;
+	height:100%;
+	overflow:hidden;
+}
+iframe{
+    width: 50%;
+    height: 100%;
+    border:none;
+    margin: 0 auto;
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1);
+}
+</style>
+
+</html>

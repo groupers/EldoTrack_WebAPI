@@ -3,11 +3,12 @@ class ApiController < ApplicationController
   require 'date'
   protect_from_forgery with: :null_session, if: Proc.new { |c| c.request.format == 'application/json' }
   def index
+  page_specific = Pageobject.where(page_id: 1)
+  @pageobjects_x_tracks = page_specific.all.select('*').joins(:tracks)
+  @movements = Movement.where(track_id: @pageobjects_x_tracks[0][:id])
 
-    @testjsons = Movement.all
-    api_response(@testjsons)
+    api_response(@movements)
   end
-# userlinks.select('*').joins(:link).order(:link_id)
 
   #Need to add restriction in terms of user page acces
   #From actor <- track(mouvement) -> pageobject -> page <- User&Actor_page
@@ -20,12 +21,19 @@ class ApiController < ApplicationController
         when "actors"
           api_response(Actor.all)
         when "movements"
-          api_response(Movement.all)
+          if params['which']
+            page = Page.find_by(id: params['which'])
+            objects = Pageobject.where(page_id: page.id)
+            @pageobjects_x_tracks = objects.all.select('*').joins(:tracks, :movements)
+            api_response(@pageobjects_x_tracks)
+          else
+            api_response(Movement.all)
+          end
         when "pageobjects"
           api_response(Pageobject.all)
         else
           api_response(Page.all)
-        end
+      end
     end
   end
 
@@ -41,6 +49,7 @@ class ApiController < ApplicationController
         dateOfBirth = Date.strptime(actor_prms[:dofb], '%Y%m%d')
         actor = Actor.new(token: actor_prms[:token], kind: actor_prms[:kind],
         dateOfBirth: dateOfBirth)
+       actor.hoursLoggedIn = 0 if !actor.hoursLoggedIn
         actor.save
       end
 
@@ -60,14 +69,14 @@ class ApiController < ApplicationController
       end
       # Pageobject
       pageobject_prms = params['object']
-      pageobject = Pageobject.find_by(selector: pageobject_prms[:objectselector])
+      pageobject = Pageobject.find_by(selector: pageobject_prms[:objectselector], href: pageobject_prms[:objecthref], text: pageobject_prms[:objecttext], page_id: page.id)
       if !pageobject
-        pageobject = Pageobject.new(selector: pageobject_prms[:objectselector],
-          href: page_prms[:objecthref], text: pageobject_prms[:objecttext], page_id: page.id)
+        pageobject = Pageobject.new(selector: pageobject_prms[:objectselector], href: pageobject_prms[:objecthref], text: pageobject_prms[:objecttext], page_id: page.id, width: pageobject_prms[:objectwidth], height: pageobject_prms[:objectheight])
         pageobject.save
       end
       # Track
-      track = Track.new(actor_id: actor.id, pageobject_id: pageobject.id)
+      track = Track.new(actor_id: actor.id, pageobject_id: pageobject.id,
+        track_time: pageobject_prms[:tracktime], track_x: pageobject_prms[:track_x], track_y: pageobject_prms[:track_y])
       track.save
 
       # Movement
@@ -76,17 +85,13 @@ class ApiController < ApplicationController
         movement.save
       end
 
-
+      allmovements = Movement.where(track_id: track.id).all
+      #Fix time formatting
+      # Additional time spent for actor
+      actor.hoursLoggedIn += ( track.track_time - allmovements.first.time.to_d)
+      actor.save
      redirect_to '/api'
-    # @testjsons = Testjson.new(testjson_params)
-    # @testjsons.save
 
   end
 
-  def track_params
-    # params.require(:track).permit(:payload, )
-  end
-  def testjson_params
-    params.require(:testjson).permit(:x,:y,:time)
-  end
 end

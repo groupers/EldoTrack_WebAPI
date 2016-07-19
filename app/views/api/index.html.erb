@@ -72,10 +72,7 @@
 		prevTrack = track;
 
 	};
-	<% @testjsons.each do |tj| %>
-		genNewPath(<%= tj.track %>);
-		newPoint(<%= tj.x %>*winRight() , <%= tj.y %>*winBottom(), new_path);
-	<% end %>
+
 
 	draw();
 

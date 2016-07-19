@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  get '/actors' => 'actors#index'
+
+  get '/comparator_results' => 'comparator#comparator_results'
+  resources :comparator
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
@@ -14,7 +16,7 @@ Rails.application.routes.draw do
   get '/api' => 'api#index'
   post '/api' => 'api#create'
   get 'access/:token/content/:type', to: 'api#content_access'
-
+  get 'access/:token/content/:type/:which', to: 'api#content_access'
   # resources :api
 
   # You can have the root of your site routed with "root"
