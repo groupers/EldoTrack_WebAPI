@@ -1,29 +1,34 @@
-//Inject on specific page
+
 
 <script>
 //Pass ID
-	var apiURL = "https://localhost:3000/access/a102938012938/content/movements/2.json";
+var eC;var nC;var canvas;var ctx;var paths = [];var new_path = {};var apiURL;
 
-	
+apiURL = "https://localhost:3000/access/a102938012938/content/movements.json/?which=<%= @page_href %>";
+
+		var $iframe = $('#page_iframe');
 		/** Create canvas **/
-		var eC = 'canvas'+$('canvas').length;
-		var nC = $('<canvas/>')
+		 eC = 'canvas'+$('canvas').length;
+		 nC = $('<canvas/>')
 		    .attr({
 		    	id: eC
 		    })
 		    .css({ 
 		    position: "absolute",
-		    marginLeft: 0, marginTop: 0,
-		    top: 0, left: 0, zIndex: 60 
+		    marginLeft: "-240px", marginTop: 0,
+		    top: $iframe.offset().top, left: $iframe.offset().top, zIndex: 60, float: "left"
 		}).css('pointer-events', 'none').appendTo('body');
-		var canvas = document.getElementById(eC);
-		var ctx = canvas.getContext("2d");
+		 canvas = document.getElementById(eC);
+		ctx = canvas.getContext("2d");
 		  ctx.canvas.width  = window.innerWidth;
 		  ctx.canvas.height = window.innerHeight;
 
+		 // $(function(){
 
-		var paths = [];
-		var new_path = {};
+   //      var $canvas = $('#'+eC);
+   //      $canvas.width(wWidth-360);
+   //      $canvas.height(wHeight-200);
+		 // }).trigger('resize'); 
 
 		let prevTrack = 0;
 		function genNewPath(track){

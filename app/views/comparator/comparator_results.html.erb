@@ -1,11 +1,10 @@
 <html>
  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
-
   <!-- Compiled and minified JavaScript -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
- 
- <div class="row">
+
 	<%= form_for :comparator, url: '/comparator', html: {class: "col s12" } do |f| %>
+	<div class="row">
 	<div class="input-field row col s6">
 		  <label for="icon_prefix">Web address (1) :</label>
 				<%= f.text_field :path1 %>
@@ -14,9 +13,27 @@
 		  	  <label for="icon_prefix">Web address (2) :</label>
 			<%= f.text_field :path2 %>
 	</div>
+	 </div>
+  <div class="row">
+	<div class="row col s6">
+	<label style="margin-left:20%; font-size:14px;">Match both pages clickable elements by</label>
+  <select name="option" style="margin-left:20%; width: 30%;" class="browser-default">
+    <option value="" disabled selected>Choose your option</option>
+    <option value="1">ID</option>
+    <option value="2">Text</option>
+  </select>
+	</div>
+
+	<div class="row col s6" style="padding-right:20px">
+	<label style=" font-size:14px;">Preference of Page 1 over Page 2 (in %).</label>
+	<p class="range-field">
+      <input type="range" id="favoritepage" name="favoritepage" step ="10" min="-100" max="100" />
+    </p>
+	</div>
+  </div>
 	 <%= f.submit "Submit", class: "btn waves-effect waves-light", id: "button-submit" %>
 	 <% end %>
- </div>
+
 <div>
 	<div class="row">
 		 	<div class="col s6">
@@ -29,7 +46,7 @@
 			 <p style="color: orange"> <%= @page2_link %></p>
 			</div>
 	</div>
-	<table class="bordered">
+	<table class="bordered" style="overflow: auto;">
 		<thead>
 		<tr>
 			<td>Object Text/id/Match's </td>
@@ -41,22 +58,22 @@
 		</thead>
 		<tbody>
 		<tr>
-			<td rowspan="2">Averaged time taken to reach object</td>
-			<td class="td-spacing1" style="color: blue">Page 1</td>
+			<td rowspan="2">Averaged time taken to reach object (s)</td>
+			<td class="td-spacing1" style="color: blue">Page1</td>
 			<% @trace_comparer = 0 
 			@page1_object_common_text_time.each {  |v| %> 
 			<td id="p1octt<%= @trace_comparer+= 1%>" value="<%= v %>"><%= v %></td>
 			<% } if @page1_object_common_text_time %>
 		</tr>
 		<tr>
-			<td class="td-spacing1" style="color: orange">Page 2</td>
+			<td class="td-spacing1" style="color: orange">Page2</td>
 			<% @trace_comparer = 0
 			 @page2_object_common_text_time.each {  |v| %> 
 			<td id="p2octt<%= @trace_comparer+= 1%>" value="<%= v %>" ><%= v %></td>
 			<% } if @page2_object_common_text_time %>
 		</tr>
 		<tr>
-			<td rowspan="2">Averaged required distance to travel to object</td>
+			<td rowspan="2">Averaged required distance to travel to object (px)</td>
 			<td class="td-spacing1" style="color: blue">Page1</td>
 			<% @trace_comparer = 0
 			 @page1_object_common_text_required_distance.each {  |v| %> 
@@ -155,7 +172,7 @@ table {
 body,html {
 	width:100%;
 	height:100%;
-	overflow:hidden;
+	/*overflow:hidden;*/
 }
 iframe{
     width: 50%;

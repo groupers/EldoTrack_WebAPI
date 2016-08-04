@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160714001738) do
+ActiveRecord::Schema.define(version: 20160727122146) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,13 @@ ActiveRecord::Schema.define(version: 20160714001738) do
     t.integer  "page_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "actor_websites", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "actor_id"
+    t.integer  "website_id"
   end
 
   create_table "actors", force: :cascade do |t|
@@ -53,6 +60,7 @@ ActiveRecord::Schema.define(version: 20160714001738) do
     t.integer  "page_id"
     t.decimal  "width"
     t.decimal  "height"
+    t.string   "tagid"
   end
 
   create_table "pages", force: :cascade do |t|
@@ -83,6 +91,13 @@ ActiveRecord::Schema.define(version: 20160714001738) do
     t.decimal  "track_y"
   end
 
+  create_table "user_pages", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "user_id"
+    t.integer  "page_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "name"
     t.string   "email"
@@ -90,6 +105,12 @@ ActiveRecord::Schema.define(version: 20160714001738) do
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
     t.string   "token"
+  end
+
+  create_table "websites", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "host"
   end
 
 end

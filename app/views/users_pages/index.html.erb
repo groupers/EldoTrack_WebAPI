@@ -1,0 +1,186 @@
+<h2>user_index#index</h2>
+<body>
+<div id="options">
+<div class="row">
+
+    <%= form_for :userpage, url: '/users_pages/index', html: {class: "col s12" } do |f| %>
+      <div class="row">
+        <div class="col s6">   
+                <h3></h3>
+              <select name="userpage" class="browser-default" onchange: "this.form.submit()">
+                <option value="" disabled selected>Choose your option</option>
+                <% @pages.each do |page| %>
+                <option value="<%= page.id %>"><%= page.href %></option>
+                <% end %>
+              </select>
+        </div>
+        <div class="col s2" style="margin-top:30px;">
+         <%= f.submit "Submit", class: "btn waves-effect waves-light", id: "button-submit"%>
+        </div>
+     </div>
+
+      <% end %>
+      </div>
+      </div>
+
+    <!-- <h1><%= @tip %></h1> -->
+    <div id="main">
+        <iframe src="<%= @page_href %>" id="page_iframe" frameborder="0"></iframe>
+        <script>
+       iframe = document.getElementById('page_iframe');
+
+      // create a string to use as a new document object
+      var val = '<scr' + 'ipt type="text/javascript" src="https://jqueryjs.googlecode.com/files/jquery-1.3.2.min.js"></scr' + 'ipt>';
+      val += '<scr' + 'ipt type="text/javascript"> $(function() { $("body").append("<h1>It works!</h1>"); }); </scr' + 'ipt>';
+
+      // get a handle on the <iframe>d document (in a cross-browser way)
+      var doc = iframe.contentWindow || iframe.contentDocument;
+      var docins;
+      if (doc.document) {
+        doc = doc.document;
+      }
+      docins = doc;
+      // open, write content to, and close the document
+
+         function print (message){
+          var output = document.getElemenetById('id');
+          output.innerHTML = message;
+        }
+        // $(doc).append('<div>Bob</div>');
+        // doc.open();
+        // doc.write(docins.innerHTML);
+        // doc.close();
+        </script>
+        <div id="menu_bar" >
+      
+    <ul class="collapsible" data-collapsible="accordion">
+    <li>
+      <div class="collapsible-header"><i class="material-icons">filter_drama</i>First</div>
+      <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+    </li>
+    <li>
+      <div class="collapsible-header"><i class="material-icons">place</i>Second</div>
+      <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+    </li>
+    <li>
+      <div class="collapsible-header"><i class="material-icons">whatshot</i>Third</div>
+      <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+    </li>
+  </ul>
+<!--   <ul id="dropdown2" class="dropdown-content">
+    <li><a href="#!">one<span class="badge">1</span></a></li>
+    <li><a href="#!">two<span class="new badge">1</span></a></li>
+    <li><a href="#!">three</a></li>
+  </ul>
+  <ul class="collection">
+  <li class="collection-header"><h4>Filter by:</h4></li>
+  <li class="collection-item"><a href="#!">Clickables<span id="clickables_span" class="badge">0</span></a></li>
+    <li class="collection-item"><a href="#!">Tracks<span id="tracks_span" class="badge">0</span></a></li>
+    <li class="collection-item"><a href="#!">Time<span id="times_span" class="badge">0</span></a></li>
+    <li class="collection-item">
+    <select>
+  <option value="volvo">Volvo</option>
+  <option value="saab">Saab</option>
+  <option value="opel">Opel</option>
+  <option value="audi">Audi</option>
+</select></li> -->
+  
+  </ul>
+        </div>
+        <script>
+        $('.dropdown-button').dropdown({
+           inDuration: 300,
+           outDuration: 225,
+           constrain_width: true, 
+           hover: false, 
+           gutter: 0, 
+           belowOrigin: false 
+           }
+      );
+        </script>
+    </div id="main">
+    <style>
+    div#main {
+    width: 100%;
+    height: 80%;
+    background: aqua;
+    margin: auto;
+    padding: 1px;
+    }
+iframe#page_iframe {
+    height: 200px;
+    display: block !important;
+    /*background: red;*/
+    float: left;
+}
+div#menu_bar {
+    /*padding: 1px;*/
+    float:left;
+    /*margin-left: 15%;*/
+    height: 200px;
+    background: black;
+}
+    </style>
+
+    <%= render partial: "tracks" , object: @page %>
+    <script>
+    $(function(){
+        var $iframe = $('#page_iframe');
+        var $bar = $('#menu_bar');
+        var $window = $(window).on('resize', function(){
+        var wWidth  = $(window).width();
+        var wHeight = $(window).height();
+        $iframe.width(wWidth-360);
+        $iframe.height(wHeight-200);
+
+        $bar.height($iframe.height());
+        $bar.width(358);
+    }).trigger('resize'); });
+    </script>
+
+    <script>
+      // Fetch buttons
+var apiURL = "https://localhost:3000/access/a102938012938/content/mouvements.json/?which=https://localhost:3000/main_click_share_v2.html";
+var count = 0;
+      $.getJSON(apiURL, function(data) {
+            $.each(data, function(index) {
+              count++;
+            });
+          $('#clickables_span').text(''+count);
+        });   
+    </script>
+<style>
+@font-face {
+    font-family: 'Material Icons';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Material Icons'), local('MaterialIcons-Regular'), url(https://fonts.gstatic.com/s/materialicons/v7/2fcrYFNaTjcS6g4U3t-Y5ZjZjT5FdEJ140U2DJYC3mY.woff2) format('woff2');
+}
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Preferred icon size */
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+}</style>
+</body>

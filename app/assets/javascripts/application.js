@@ -13,4 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
+//= require multi-select
+//= require jquery-ui
+//= require materialize-sprockets
 //= require_tree .

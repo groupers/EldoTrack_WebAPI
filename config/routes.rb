@@ -1,5 +1,24 @@
 Rails.application.routes.draw do
 
+  get 'observation/index'
+
+  get 'observation/create'
+
+  get 'users_pages/index'
+  # get 'user_pages'
+
+  get 'users_pages/show'
+
+  get 'users_pages/create'
+
+  post 'users_pages/index', to: 'users_pages#observe'
+
+  # resources :users_pages do
+  # collection do
+  #     post 'users_pages/Index'
+  #   end
+  # end
+
   get '/comparator_results' => 'comparator#comparator_results'
   resources :comparator
 
@@ -17,6 +36,7 @@ Rails.application.routes.draw do
   post '/api' => 'api#create'
   get 'access/:token/content/:type', to: 'api#content_access'
   get 'access/:token/content/:type/:which', to: 'api#content_access'
+  get 'access/content/:actor/:type', to: 'api#content_access'
   # resources :api
 
   # You can have the root of your site routed with "root"

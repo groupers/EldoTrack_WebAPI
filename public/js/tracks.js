@@ -1,31 +1,25 @@
-//Inject on specific page
 
-<script>
-//Pass ID
-	var apiURL = "https://localhost:3000/access/a102938012938/content/movements/2.json";
+var eC;var nC;var canvas;var ctx;var paths = [];var new_path = {};var apiURL;
+apiURL = "https://localhost:3000/access/a102938012938/content/movements/1.json";
 
-	
 		/** Create canvas **/
-		var eC = 'canvas'+$('canvas').length;
-		var nC = $('<canvas/>')
+		 eC = 'canvas'+$('canvas').length;
+		 nC = $('<canvas/>')
 		    .attr({
 		    	id: eC
 		    })
-		    .css({ 
-		    position: "absolute",
-		    marginLeft: 0, marginTop: 0,
-		    top: 0, left: 0, zIndex: 60 
+		    .css({
+		    marginLeft: 0, marginTop: 0, position: "absolute",
+		    top: 0, left: 0, zIndex: 60, float: "left"
 		}).css('pointer-events', 'none').appendTo('body');
-		var canvas = document.getElementById(eC);
-		var ctx = canvas.getContext("2d");
+		 canvas = document.getElementById(eC);
+		ctx = canvas.getContext("2d");
 		  ctx.canvas.width  = window.innerWidth;
 		  ctx.canvas.height = window.innerHeight;
 
+		
 
-		var paths = [];
-		var new_path = {};
-
-		let prevTrack = 0;
+		var prevTrack = 0;
 		function genNewPath(track){
 			if (prevTrack != track ){
 			 new_path = 			
@@ -106,4 +100,3 @@
 		    }
 		    return color;
 		};
-</script>

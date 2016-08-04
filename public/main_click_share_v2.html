@@ -73,24 +73,19 @@ c.init();r.Mousetrap=c;"undefined"!==typeof module&&module.exports&&(module.expo
 		//Acts as a CSS selector
 		jQuery.fn.getPath = function () {
 		    if (this.length != 1) throw 'Requires one element.';
-
 		    var path, node = this;
 		    while (node.length) {
 		        var realNode = node[0], name = realNode.localName;
 		        if (!name) break;
 		        name = name.toLowerCase();
-
 		        var parent = node.parent();
-
 		        var siblings = parent.children(name);
 		        if (siblings.length > 1) { 
 		            name += ':eq(' + siblings.index(realNode) + ')';
 		        }
-
 		        path = name + (path ? '>' + path : '');
 		        node = parent;
 		    }
-
 		    return path;
 		};
 
@@ -110,7 +105,7 @@ c.init();r.Mousetrap=c;"undefined"!==typeof module&&module.exports&&(module.expo
 		$(window).mousemove(function( event ) {
 		  let coordXY = new Object();
 		  coordXY.time = getclockHours();
-		  coordXY.x = (event.pageX);
+		  coordXY.x = ""+(event.pageX);
 		  coordXY.y = (event.pageY);
 
 		  coordinates.push(coordXY);
@@ -179,44 +174,6 @@ c.init();r.Mousetrap=c;"undefined"!==typeof module&&module.exports&&(module.expo
 		
 </script>
 
-<table id="options_table" style="opacity:0">
-        <thead>
-          <tr>
-              <th data-field="id">Name</th>
-              <th data-field="name">Item Name</th>
-              <th data-field="price">Item Price</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <tr>
-            <td>Alvin</td>
-            <td>Eclair</td>
-            <td>$0.87</td>
-          </tr>
-          <tr>
-            <td>Alan</td>
-            <td>Jellybean</td>
-            <td>$3.76</td>
-          </tr>
-          <tr>
-            <td>Jonathan</td>
-            <td>Lollipop</td>
-            <td>$7.00</td>
-          </tr>
-        </tbody>
-      </table>
-    <style>
-		#options_table {
-			opacity:0;
-			position:absolute;
-	        user-select: none;
-	        -moz-user-select: none;
-	        -khtml-user-select: none;
-	        -webkit-user-select: none;
-	        -o-user-select: none;
-		}
-    </style>
 <script>
 	let coordx = null;
 	let coordy = null;

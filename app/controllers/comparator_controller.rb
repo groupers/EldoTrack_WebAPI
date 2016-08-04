@@ -4,21 +4,11 @@ class ComparatorController < ApplicationController
     @movements = Movement.all
     @pageobjects = Pageobject.all
     @pageobjects_x_movements = Pageobject.select('*').joins(:tracks)
-    # Step one:
-    # For all objects that have something in common
-    # Thing in common is passed as a parameter
-    # Compare all objects for that one thing
-    # Compare time taken to reach does objects in average
-
   end
-
-
-      # when kind == "tot_obj_time"; total_time_per_objects
-      # when kind == "tot_obj_numb"; total_numb_of_objects
-      # when kind == "tot_page_time"; total_time_on_page
 
   def create
     comparator = params[:comparator]
+    flash[:optionl] = params[:option]
     if comparator[:path1] && comparator[:path2]
       page1 = Page.find_by(href: comparator[:path1])
       page2 = Page.find_by(href: comparator[:path2])
@@ -42,6 +32,7 @@ class ComparatorController < ApplicationController
 
 
   def comparator_results
+      @optionl = flash[:optionl]
       @trace_comparer = 0
       @page_objects_common_text = []
       @page1_object_common_text_time = []
@@ -63,15 +54,14 @@ class ComparatorController < ApplicationController
         flash[:page2].second.each { |k2 , v2|
         object_k2 = Pageobject.find_by(id: k2)
           #If user chooses to match texts
-          if object_k1.text == object_k2.text && object_k1.text.length > 0
+          if ((object_k1.tagid == object_k2.tagid && @optionl == "1")||(object_k1.text == object_k2.text && @optionl == "2"))&& object_k1.text.length > 0
             @page_objects_common_text << object_k2.text
             @page1_object_common_text_time << (v1.to_d*3600).round(2)
             @page2_object_common_text_time << (v2.to_d*3600).round(2)
             @page1_object_common_text_required_distance << flash[:page1].third[k1].to_d.round(2)
             @page2_object_common_text_required_distance << flash[:page2].third[k2].to_d.round(2)
-            @page1_fitts_index_of_difficulty << flash[:page1objectfitts][k1].to_d
-            @page2_fitts_index_of_difficulty << flash[:page2objectfitts][k2].to_d
-
+            @page1_fitts_index_of_difficulty << flash[:page1objectfitts][k1].to_d.round(3)
+            @page2_fitts_index_of_difficulty << flash[:page2objectfitts][k2].to_d.round(3)
         end
 
           }
