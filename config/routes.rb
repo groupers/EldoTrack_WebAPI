@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 
   get 'observation/create'
 
-  get 'users_pages/index'
+  get 'users_pages/index', as: 'iup'
   # get 'user_pages'
 
   get 'users_pages/show'
@@ -12,6 +12,8 @@ Rails.application.routes.draw do
   get 'users_pages/create'
 
   post 'users_pages/index', to: 'users_pages#observe'
+  get 'users_pages/new', to: 'users_pages#new', as: 'new_users_pages'
+  post 'users_pages/create', to:'users_pages#create', as: 'create_users_pages'
 
   # resources :users_pages do
   # collection do

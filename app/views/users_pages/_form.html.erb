@@ -1,0 +1,11 @@
+<%= form_for :user_pages, remote: true, url: create_users_pages_path, html: {class: "col s12", id: "new_task"} do |f| %>
+	<div class="row">
+	<div class="input-field row col s6">
+		  <label for="icon_prefix">Web address (1) :</label>
+				<%= f.text_field :host %>
+	</div>
+	<div class="input-field row col s6">
+		<%= f.submit %>
+	</div>
+	</div>
+	<% end %>

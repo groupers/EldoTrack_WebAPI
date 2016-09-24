@@ -112,7 +112,10 @@ class ApiController < ApplicationController
           # && UserPage.find_by(user_id: @user.id, page_id: page.id)
             objects = Pageobject.where(page_id: page.id)
             @pageobjects_x_tracks = objects.all.select('*').joins(:tracks, :movements)
-            if params['op'] == "count"
+
+            if params['op'] == "count_per_coord"
+             api_response(Movement.where(page_id: page.id).group(['x','y']).select(:x,:y,"COUNT(DISTINCT id)"))
+            elsif params['op'] == "count"
               api_response(@pageobjects_x_tracks.count)
             else
               api_response(@pageobjects_x_tracks)
@@ -198,7 +201,7 @@ class ApiController < ApplicationController
 
       # Movement
       params['movements'].each do |item, v|
-        movement = Movement.new(x: v[:x], y: v[:y], time: v[:time], track_id: track.id)
+        movement = Movement.new(x: v[:x], y: v[:y], time: v[:time], track_id: track.id, page_id: page.id)
         movement.save
       end
 
@@ -207,6 +210,10 @@ class ApiController < ApplicationController
       # Additional time spent for actor
       actor.hoursLoggedIn += ( track.track_time - allmovements.first.time.to_d)
       actor.save
+
+      # for new track of page add track to the grid collection of movement for clickable
+      # Create a threa for that
+
     redirect_to '/api'
   end
 

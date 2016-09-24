@@ -15,12 +15,14 @@ class ComparatorController < ApplicationController
       if page1 && page2 && page1.href && page2.href
         #Have to change structure so that this is called in comparator_results
         #once, so I will have to return an array instead.
-        page1_avg_obj_time = get_page_specs_of(page1, "avg_obj_time")
-        page2_avg_obj_time = get_page_specs_of(page2, "avg_obj_time")
-        page1_avg_obj_required_distance = get_page_specs_of(page1, "avg_obj_required_distance")
-        page2_avg_obj_required_distance = get_page_specs_of(page2, "avg_obj_required_distance")
-        flash[:page1objectfitts] = get_page_specs_of(page1, "fitts_index_of_difficulty_per_object")
-        flash[:page2objectfitts] = get_page_specs_of(page2, "fitts_index_of_difficulty_per_object")
+        page1_info_arr = get_page_specs_of(page1, "allkinds")
+        page2_info_arr = get_page_specs_of(page2, "allkinds")
+        page1_avg_obj_time = page1_info_arr[5]
+        page2_avg_obj_time = page2_info_arr[5]
+        page1_avg_obj_required_distance = page1_info_arr[0]
+        page2_avg_obj_required_distance = page2_info_arr[0]
+        flash[:page1objectfitts] = page1_info_arr[6]
+        flash[:page2objectfitts] = page2_info_arr[6]
         flash[:page1] = [page1.href, page1_avg_obj_time, page1_avg_obj_required_distance]
         flash[:page2] = [page2.href, page2_avg_obj_time, page2_avg_obj_required_distance]
 

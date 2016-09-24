@@ -115,13 +115,14 @@ class ApplicationController < ActionController::Base
           }
         return case
           #
-          when kind == "avg_obj_required_distance"; avg_distance_required_per_object
-          when kind == "tot_obj_time"; total_time_per_objects
-          when kind == "tot_obj_numb"; total_numb_of_objects
-          when kind == "total_numb_of_track_per_object"; total_numb_of_track_per_object
-          when kind == "tot_page_time"; total_time_on_page
-          when kind == "avg_obj_time"; avg_track_time_per_object
-          when kind == "fitts_index_of_difficulty_per_object"; fitts_index_of_difficulty_per_object
+          when kind == "avg_obj_required_distance"; avg_distance_required_per_object #0
+          when kind == "tot_obj_time"; total_time_per_objects #1
+          when kind == "tot_obj_numb"; total_numb_of_objects #2
+          when kind == "total_numb_of_track_per_object"; total_numb_of_track_per_object #3
+          when kind == "tot_page_time"; total_time_on_page #4
+          when kind == "avg_obj_time"; avg_track_time_per_object #5
+          when kind == "fitts_index_of_difficulty_per_object"; fitts_index_of_difficulty_per_object #6
+          when kind == "allkinds"; [avg_distance_required_per_object, total_time_per_objects, total_numb_of_objects,total_numb_of_track_per_object, total_time_on_page, avg_track_time_per_object, fitts_index_of_difficulty_per_object]
           else ; avg_distance_required_per_object
         end
     end
