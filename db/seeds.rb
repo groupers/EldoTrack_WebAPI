@@ -10,5 +10,7 @@ page1= Page.create(host: 'localhost', path: '/main_click_share_v2.html', href: '
 UserPage.create(user_id: user1.id, page_id: page1.id)
 page2b= Page.create(host: 'local', path:'/Users/Phil/Desktop/ELDERLY/javascript/main_click_share_v2.html', href: 'file:///Users/Phil/Desktop/ELDERLY/javascript/main_click_share_v2.html')
 page3b= Page.create(host: "www.google.be", path:'/', href: "https://www.google.be/")
+page1= Page.create(host: 'localhost', path: '/main_click_share_v2_c.html', href: 'https://localhost:3000/main_click_share_v2_c.html')
+
 UserPage.create(user_id: user1.id, page_id: page2b.id)
 UserPage.create(user_id: user1.id, page_id: page3b.id)
