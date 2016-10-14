@@ -3,7 +3,8 @@ class UsersPagesController < ApplicationController
   def index
 
     @pages = Page.joins(:user_pages).merge(UserPage.where(user_id: current_user.id))
-    @page_href = "https://localhost:3000/"
+    #Must be replace to local
+    @page_href = "#{Rails.root}"
 
   end
 
@@ -34,7 +35,7 @@ class UsersPagesController < ApplicationController
     if @page
       @page_href = Page.find(@page).href
     else
-      @page_href = "https://localhost:3000/"
+      @page_href = "#{Rails.root}"
     end
     # @clickables =
     render action: :index

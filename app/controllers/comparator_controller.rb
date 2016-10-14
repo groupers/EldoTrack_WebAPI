@@ -9,6 +9,7 @@ class ComparatorController < ApplicationController
   def create
     comparator = params[:comparator]
     flash[:optionl] = params[:option]
+    flash[:rateofimp] = params[:favoritepage].to_f/100 + 1
     if comparator[:path1] && comparator[:path2]
       page1 = Page.find_by(href: comparator[:path1])
       page2 = Page.find_by(href: comparator[:path2])
@@ -34,6 +35,7 @@ class ComparatorController < ApplicationController
 
 
   def comparator_results
+      @rate_of_importance = flash[:rateofimp]
       @optionl = flash[:optionl]
       @trace_comparer = 0
       @page_objects_common_text = []

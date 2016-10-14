@@ -17,6 +17,8 @@
 	<a id="btn-logout" class="waves-effect waves-light btn"><i id="icloudlogout1" class="material-icons left">cloud</i>Log Out</a>
 
 <script>
+/** ----------------------------- (CLEAN) INJECTED SCRIPT   ----------------------------- **/
+
 	function includejQuery(callback) {
 		if(window.jQuery)
 		{
@@ -49,13 +51,15 @@
 	let temp_coordinates = [];
 	var jsonMainContainer = new Object();
 	/** ------------------- MUST FILL IN ----------------------- **/
+/** ------ *Warning* Information about actor should be filled in server side ------ **/
+
 	let jsonActor = new Object();
 	/* choice between unique, anon-unique, anon-group */
-	jsonActor.kind = "unique";
-	/*For the moment enter age @todo create calculator */
+	jsonActor.kind = "anon-group";
+	/*For the moment enter age if available @todo create calculator */
 	jsonActor.dofb = "19931030";
-	/* hard coded proof of concept */
-		// jsonActor.hrslggdn = "1234";
+	/*anon_group token *WARNING* this should be set in server side of application */
+	/* Before an api request at the instance of a post request allow the application controller handle the request */ 
 		jsonActor.token = "second_token";
 
 		let jsonPage = new Object();
@@ -64,7 +68,29 @@
 		/* if unsensitive params */
 		jsonPage.pagehref = window.location.href;
 		/** -------------------------------------------------------- **/
-
+  		// Instead of making a post request directly to the API acces point
+  		// To avoid expose the actor TOKEN (See above ).
+  		// Make the request to an end point located on the website's to the API
+	   function jsonPost($passing, jsonObject) {
+				//Send the user's model relevant information to the local api.. 
+				//and state on which page the user is currently on.
+				$.ajax({
+					//Replace by local end point and pass the request from there to the API access point
+					// Post request -> Local (controller hiding actor Token key) -> Post request API.
+					url: "https://localhost:3000/api",
+					type: "POST",
+					data: jsonObject ,
+					// crossDomain: true,
+					dataType: "json",
+					success: function (result) {
+					},
+					error: function (xhr, ajaxOptions, thrownError) {
+					}
+				});
+				if($passing.attr('href')){
+					document.location = $passing.attr('href');
+				}
+		};
 
 includejQuery(function($){
 	// window size information.
@@ -82,7 +108,9 @@ includejQuery(function($){
 		  $('#demonstration_purpose_box').css('left', 10+event.pageX + 'px');
 		  $('#demonstration_purpose_box_text').text("("+(event.pageX).toFixed( 2 )+"%, "+(event.pageY).toFixed( 2 )+"% )");
 		});
+
 		//Acts as a CSS selector
+		/** Allows use to uniquely identify an HTML element **/
 		jQuery.fn.getPath = function () {
 			if (this.length != 1) throw 'Requires one element.';
 
@@ -106,6 +134,7 @@ includejQuery(function($){
 			return path;
 		};
 		//Get an accurate time
+		//Should also get the date in addition to the time.
 		function clock() {
 			var now = new Date(); var outStr = now.getHours()+':'+now.getMinutes()+':'+now.getSeconds()+':'+now.getMilliseconds();
 			return outStr;
@@ -166,24 +195,6 @@ includejQuery(function($){
 				jsonPost($self,jsonMainContainer);
        //now get the anchor href and redirect the browser
   		}
-	   function jsonPost($passing, jsonObject) {
-				//Send the user's model relevant information to the local api.. 
-				//and state on which page the user is currently on.
-				$.ajax({	
-					url: "https://localhost:3000/api",
-					type: "POST",
-					data: jsonObject ,
-					// crossDomain: true,
-					dataType: "json",
-					success: function (result) {
-					},
-					error: function (xhr, ajaxOptions, thrownError) {
-					}
-				});
-				if($passing.attr('href')){
-					document.location = $passing.attr('href');
-				}
-		};
 
 		var getAbsoluteUrl = (function() {
 			var a;
@@ -199,6 +210,8 @@ includejQuery(function($){
 		$(document).on("click","button", jsonMake);
 
 	});
+
+/** -------------------------------------------------------------------------------------------- **/
 		function findElementFromPath(path) {
 			if (path > 0) throw 'Requires one element.';
 			var mainIterator = 0;var innerIterator =0;

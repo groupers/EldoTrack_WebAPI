@@ -49,7 +49,7 @@
 	<table class="bordered" style="overflow: auto;">
 		<thead>
 		<tr>
-			<td>Object Text/id/Match's </td>
+			<td>HTML Object text or id Match's </td>
 			<td></td>
 			<% @page_objects_common_text.each {  |v| %> 
 			<th data-field="poct<%= @trace_comparer+= 1%>"><%= v %></th>
@@ -120,41 +120,42 @@
 </br>
 <script>
 for (i = 1 ; i <= <%= @trace_comparer %>; i++){
-	let p1 = 0 , p2 = 0 ;
+	let p1 = 1 , p2 = 1 ;
 	if ($("#p1octt"+i).attr('value') < $("#p2octt"+i).attr('value') ){
 		$('#p1octt'+i).css('color', 'green');
 		p1++;
-	} else {
+	} else if($("#p1octt"+i).attr('value') > $("#p2octt"+i).attr('value') ) {
 		$('#p2octt'+i).css('color', 'green');
 		p2++;
-
+	}else {
+		//Tie
 	}
 	if($("#p1octrd"+i).attr('value') < $("#p2octrd"+i).attr('value') ){
 		$('#p1octrd'+i).css('color', 'green');
 		p1++;
-	} else {
+	} else if($("#p1octrd"+i).attr('value') > $("#p2octrd"+i).attr('value') ){
+
 		$('#p2octrd'+i).css('color', 'green');
 		p2++;
 	}
 	if($("#p1fiod"+i).attr('value') < $("#p2fiod"+i).attr('value') ){
 		$('#p1fiod'+i).css('color', 'green');
 		p1++;
-	} else {
+	} else if($("#p1fiod"+i).attr('value') > $("#p2fiod"+i).attr('value') ){
 		$('#p2fiod'+i).css('color', 'green');
 		p2++;
 	}
 
-
-	if(p1 > p2){
+	if(p1* <%= @rate_of_importance ? @rate_of_importance : 1 %> > p2){
 	$('#win_object'+i).text("Page one");	
 	$('#win_object'+i).css('color','blue');
 
-	}else if(p2 > p1 ){
+	}else if(p2 * <%= @rate_of_importance ? @rate_of_importance : 1 %> > p1 ){
 		console.log(""+p1+ " "+p2);
 	$('#win_object'+i).text("Page two");
 	$('#win_object'+i).css('color','orange');
 	}else {
-		$('#win_object'+i).text("There is an unweighted tie");
+		$('#win_object'+i).text("There is an unweighted tie.");
 		$('#win_object'+i).css('color','Green');
 	}
 }

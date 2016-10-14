@@ -66,9 +66,10 @@ class ApplicationController < ActionController::Base
         pageobjects_x_tracks.each do |l|
           if l[:id]
             allmovements = Movement.where(track_id: l[:id]).all
+            firstmovementtime = Movement.first.time
             #Fix time formatting
             track = Track.find_by(id: l[:id])
-            current_track_time =(track.track_time - allmovements.first.time.to_d)*3600
+            current_track_time = (track.track_time - firstmovementtime.to_d)*3600
             total_time_on_page += current_track_time
             total_numb_of_objects += 1
             current_track_distance = Math.sqrt(((track.track_x - allmovements[0][:x])**2)+((track.track_y-allmovements[0][:y])**2))

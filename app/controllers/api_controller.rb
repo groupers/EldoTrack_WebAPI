@@ -117,6 +117,8 @@ class ApiController < ApplicationController
              api_response(Movement.where(page_id: page.id).group(['x','y']).select(:x,:y,"COUNT(DISTINCT id)"))
             elsif params['op'] == "count"
               api_response(@pageobjects_x_tracks.count)
+            elsif params['op'] == "first time"
+              api_response(Movement.first.time)
             else
               api_response(@pageobjects_x_tracks)
             end
